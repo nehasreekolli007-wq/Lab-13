@@ -1,0 +1,59 @@
+name: Lab 13 - End-to-End MLOps
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+      timezone: "Asia/Kolkata"
+
+jobs:
+  mlops-monitoring:
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - name: Run MLOps monitoring trigger
+        shell: powershell
+        run: |
+          $projectPath = $env:LAB13_PROJECT_PATH
+
+          if ([string]::IsNullOrWhiteSpace($projectPath)) {
+              throw "LAB13_PROJECT_PATH environment variable is missing."
+          }
+
+          if (-not (Test-Path -LiteralPath $projectPath)) {
+              throw "Project folder not found: $projectPath"
+          }
+
+          Set-Location -LiteralPath $projectPath
+
+          python --version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          python .\src\mlops_pipeline\12_monitor_trigger.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Show monitoring result
+        shell: powershell
+        run: |
+          Set-Location -LiteralPath $env:LAB13_PROJECT_PATH
+
+          $report = ".\outputs\monitoring\monitor_trigger_report.json"
+
+          if (Test-Path $report) {
+              Get-Content $report
+          } else {
+              Write-Host "Monitoring report was not generated."
+              exit 1
+          }
+
+      - name: Verify Kubernetes
+        shell: powershell
+        run: |
+          kubectl config current-context
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          kubectl get deployment churn-api
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          kubectl get pods
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

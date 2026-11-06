@@ -1,0 +1,90 @@
+# Environments
+venv/
+env/
+__pycache__/
+.ipynb_checkpoints/
+
+# Ignore ALL data files
+data/raw/*.csv
+data/processed/*.npy
+
+# Ignore model artifacts
+models/*.pkl
+
+logs/
+outputs/
+
+.vscode/
+
+# Ignore MLflow tracking data and databases
+mlruns/
+mlflow.db
+
+# Ignore locally generated artifact plots and reports
+artifacts/
+# Python generated files
+*.py[cod]
+
+# Model files and binary training data
+*.pkl
+*.joblib
+*.npy
+
+# Customer datasets - do not publish raw records
+churn.csv
+churn_v*.csv
+new_churn.csv
+evolved_data.csv
+evolved_labeled_data.csv
+post_drift_training_data.csv
+updated_training_data.csv
+X_test_raw.csv
+X_train_raw.csv
+test_customer_ids.csv
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Ignore all CSV datasets and generated exports
+*.csv
+
+# Generated JSON reports and runtime metadata
+api_performance_report.json
+api_test_report.json
+api_testing_report.json
+data_load_report.json
+dataset_lineage.json
+dataset_metadata.json
+evaluation_report.json
+failure_report.json
+failure_simulation_report.json
+lifecycle_report.json
+model_metadata.json
+performance_report.json
+pipeline_reproducibility_report.json
+preprocessing_summary_report.json
+production_model_report.json
+quality_gate_report.json
+reproducibility_report.json
+deployment_automation_report.json
+
+# Generated metadata and reports in subfolders
+data/processed/*metadata.json
+data/raw/archive/*.json
+deployment/*metadata.json
+reports/*.json
+
+# Generated evaluation plots
+confusion_matrix.png
+roc_curve.png
+
+# Accidental empty duplicate
+tests____init__.py
+
+# Root-level duplicate Lab 13 workflows
+/lab13_monitoring.yml
+/lab13_runner_test.yml
